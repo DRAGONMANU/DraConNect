@@ -1,25 +1,12 @@
 package com.example.draconnect;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,27 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.id.list;
 
 public class ButtonActivity extends AppCompatActivity implements View.OnClickListener {
     Button add_bt;
@@ -57,6 +24,7 @@ public class ButtonActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> arrayListport;
     ArrayList<String> arrayListname;
     ArrayList<String> arrayListparam;
+    MyAdapter adapter;
 
 
     public final static String PREF_IP = "PREF_IP_ADDRESS";
@@ -100,7 +68,7 @@ public class ButtonActivity extends AppCompatActivity implements View.OnClickLis
         arrayListname = new ArrayList<>();
         arrayListparam = new ArrayList<>();
 
-        MyAdapter adapter = new MyAdapter(ButtonActivity.this, arrayListip, arrayListport, arrayListname, arrayListparam);
+        adapter = new MyAdapter(ButtonActivity.this, arrayListip, arrayListport, arrayListname, arrayListparam);
         lv.setAdapter(adapter);
         Log.d(TAG, "done");
 
@@ -153,10 +121,10 @@ public class ButtonActivity extends AppCompatActivity implements View.OnClickLis
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
-            TextView name = (TextView) findViewById(R.id.name);
-            TextView param = (TextView) findViewById(R.id.param);
-            TextView ip = (TextView) findViewById(R.id.ip);
-            TextView port = (TextView) findViewById(R.id.port);
+            TextView name = (TextView) row.findViewById(R.id.name);
+            TextView param = (TextView) row.findViewById(R.id.param);
+            TextView ip = (TextView) row.findViewById(R.id.ip);
+            TextView port = (TextView) row.findViewById(R.id.port);
             name.setText(listname.get(position));
             param.setText(listparam.get(position));
             ip.setText(listip.get(position));
@@ -178,6 +146,8 @@ public class ButtonActivity extends AppCompatActivity implements View.OnClickLis
         arrayListport.add(port);
         arrayListname.add(name);
         arrayListparam.add(param);
+
+        adapter.notifyDataSetChanged();
     }
 }
 /*
